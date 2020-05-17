@@ -1,0 +1,52 @@
+FROM ubuntu:bionic
+
+LABEL maintainer="Gar <gar+gh@danger.computer>"
+ARG tz=America/Los_Angeles
+ENV TZ=$tz
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && \
+  apt-get -y --no-install-recommends install \
+    cmake \
+    g++ \
+    gcc \
+    git \
+    google-mock \
+    guile-2.0-dev \
+    libaqbanking-dev \
+    libboost-date-time-dev \
+    libboost-dev \
+    libboost-filesystem-dev \
+    libboost-locale-dev \
+    libboost-regex-dev \
+    libboost-system-dev \
+    libcanberra-gtk3-module \
+    libdbd-sqlite3 \
+    libdbi-dev \
+    libglib2.0-dev \
+    libgtest-dev \
+    libgwenhywfar-core-dev \
+    libofx-dev \
+    libsecret-1-dev \
+    libwebkit2gtk-4.0-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    locales-all \
+    pkg-config \
+    swig \
+    xsltproc
+
+RUN apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /opt/build
+RUN git clone --depth 1 https://github.com/Gnucash/gnucash.git
+
+WORKDIR /opt/build/build-gnucash
+RUN cmake -DCMAKE_INSTALL_PREFIX=/usr/local ../gnucash
+RUN make install
+
+WORKDIR /
+RUN rm -rf /opt/build
+
+ENTRYPOINT /usr/local/bin/gnucash

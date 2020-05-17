@@ -1,0 +1,55 @@
+FROM ubuntu:bionic
+
+LABEL maintainer="Gar <gar+gh@danger.computer>"
+ARG DEBIAN_FRONTEND=noninteractive
+RUN echo America/Los_Angeles > /etc/timezone
+
+RUN apt-get update && \
+  apt-get -y --no-install-recommends install \
+    awscli \
+    curl \
+    git \
+    gpg \
+    keepassx \
+    less \
+    locales \
+    openssh-client \
+    python \
+    software-properties-common \
+    vim-gtk -y
+
+RUN add-apt-repository -y -u ppa:fish-shell/release-3
+RUN apt-get install --no-install-recommends fish -y
+
+RUN locale-gen "en_US.UTF-8"
+
+RUN apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN useradd -ms /usr/bin/fish gar
+
+USER gar
+WORKDIR /home/gar
+
+RUN git clone --recursive https://github.com/wraithgar/garvim.git .vim
+RUN ln -s .vim/vimrc .vimrc
+RUN ln -s .vim/gvimrc .gvimrc
+
+RUN git clone --depth 1 https://github.com/creationix/nvm.git .nvm
+
+ADD fish /opt/dotfiles/fish
+ADD gitconfig /opt/dotfiles/gitconfig
+
+RUN mkdir -p /home/gar/.config/fish
+RUN ln -s /opt/dotfiles/fish/* /home/gar/.config/fish
+RUN ln -s /opt/dotfiles/gitconfig /home/gar/.gitconfig
+
+RUN fish -c "nvm install v8"
+RUN fish -c "nvm install v10"
+RUN fish -c "nvm install v12"
+
+RUN mkdir -p .local/share/fonts/NerdFonts
+RUN curl -fLo ".local/share/fonts/NerdFonts/Droid Sans Mono Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
+
+ENTRYPOINT /usr/bin/fish

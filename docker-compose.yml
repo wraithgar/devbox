@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  devbox:
+    container_name: devbox
+    image: wraithgar/devbox
+    environment:
+      - DISPLAY
+      - LANG
+    volumes:
+      # Cached stuff (host is authoritative, rarely changes so delays don't matter)
+      - /tmp/.X11-unix:/tmp/.X11-unix:cached
+      - /home/gar/.ssh:/home/gar/.ssh:cached
+      - /home/gar/.gnupg:/home/gar/.gnupg:cached
+      - /home/gar/.aws:/home/gar/.aws:cached
+      # Delegated stuff (container is authoritative, changes often so delays matter)
+      - /home/gar/Development:/home/gar/Development:delegated

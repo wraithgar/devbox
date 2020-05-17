@@ -1,0 +1,40 @@
+[user]
+  name = Michael Garvin
+  email = gar+gh@danger.computer
+  signingkey = A9AB90AE879B73AA
+[alias]
+  lastdiff = diff HEAD^
+  current = symbolic-ref -q HEAD
+  unpushed = cherry -v ORIG_HEAD
+  hist = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+  ff = merge --ff-only $1
+  madd = !git add -A && git commit -m
+  aamend = !git add -A && git commit -n --amend
+  ugh = !git add -A && git commit --amend --no-edit
+  lasttag = !git tag --sort=-v:refname -n1 | head -1
+  pfetch = !git pull && git fetch
+[core]
+  excludesfile = ~/.gitignore
+  editor = /usr/bin/vim
+  quotepath = off
+[color]
+  branch = true
+  diff = true
+  interactive = true
+  status = true
+[branch]
+  autosetuprebase = always
+  autosetupmerge = true
+[merge]
+  conflictstyle = diff3
+[push]
+  default = simple
+  followTags = true
+[pull]
+  followTags = true
+[diff]
+  compactionheuristic = true
+[remote "origin"]
+	prune = true
+[commit]
+	gpgsign = true
