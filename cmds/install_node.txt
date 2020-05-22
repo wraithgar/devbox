@@ -1,0 +1,3 @@
+fish -c "nvm install v8 --latest-npm; npm i -g json nodemon"
+fish -c "nvm install v10 --latest-npm; nvm reinstall-packages v8"
+fish -c "nvm install v12 --latest-npm; nvm reinstall-packages v8"

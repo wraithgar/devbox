@@ -1,2 +1,2 @@
 #!/bin/sh
-docker-compose run --rm devbox
+docker-compose run --rm devbox --name devbox

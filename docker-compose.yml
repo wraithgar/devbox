@@ -5,13 +5,14 @@ services:
     container_name: devbox
     image: wraithgar/devbox
     environment:
-      - DISPLAY
+      - DISPLAY=host.docker.internal:0
       - LANG
     volumes:
       # Cached stuff (host is authoritative, rarely changes so delays don't matter)
-      - /tmp/.X11-unix:/tmp/.X11-unix:cached
-      - /home/gar/.ssh:/home/gar/.ssh:cached
-      - /home/gar/.gnupg:/home/gar/.gnupg:cached
-      - /home/gar/.aws:/home/gar/.aws:cached
+      - /Users/wraithgar/.ssh:/home/gar/.ssh:cached
+      # - /home/wraithgar/.gnupg:/home/gar/.gnupg:cached
+      - /Users/wraithgar/.aws:/home/gar/.aws:cached
+      - /Users/wraithgar/.npmrc:/home/gar/.npmrc:cached
       # Delegated stuff (container is authoritative, changes often so delays matter)
-      - /home/gar/Development:/home/gar/Development:delegated
+      - /Users/wraithgar/Development:/home/gar/Development:delegated
+      - ./private/fish_history:/home/gar/.local/share/fish/fish_history:delegated

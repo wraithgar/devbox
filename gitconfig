@@ -1,7 +1,7 @@
 [user]
   name = Michael Garvin
   email = gar+gh@danger.computer
-  signingkey = A9AB90AE879B73AA
+  ; signingkey = A9AB90AE879B73AA
 [alias]
   lastdiff = diff HEAD^
   current = symbolic-ref -q HEAD
@@ -37,4 +37,4 @@
 [remote "origin"]
 	prune = true
 [commit]
-	gpgsign = true
+	; gpgsign = true
